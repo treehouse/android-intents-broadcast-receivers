@@ -24,9 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
-    public static final String KEY_SONG = "song";
+    public static final String EXTRA_SONG = "EXTRA_SONG";
     public static final int REQUEST_FAVORITE = 0;
     public static final String EXTRA_FAVORITE = "EXTRA_FAVORITE";
+    public static final String EXTRA_LIST_POSITION = "EXTRA_LIST_POSITION";
 
     private boolean mBound = false;
     private Button mDownloadButton;
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         // Send Messages to Handler for processing
         for (Song song : Playlist.songs) {
             Intent intent = new Intent(MainActivity.this, DownloadIntentService.class);
-            intent.putExtra(KEY_SONG, song);
+            intent.putExtra(EXTRA_SONG, song);
             startService(intent);
         }
     }
@@ -146,6 +147,9 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 boolean result = data.getBooleanExtra(EXTRA_FAVORITE, false);
                 Log.i(TAG, "Is favorite? " + result);
+                int position = data.getIntExtra(EXTRA_LIST_POSITION, 0);
+                Playlist.songs[position].setIsFavorite(result);
+                mAdapter.notifyItemChanged(position);
             }
         }
     }
