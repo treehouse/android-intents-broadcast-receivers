@@ -12,6 +12,7 @@ import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String EXTRA_TITLE = "EXTRA_TITLE";
     public static final String KEY_SONG = "song";
+    public static final int REQUEST_FAVORITE = 0;
+    public static final String EXTRA_FAVORITE = "EXTRA_FAVORITE";
 
     private boolean mBound = false;
     private Button mDownloadButton;
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // Explicit intent
         Intent intent = new Intent(this, DetailActivity.class);
         intent.putExtra(EXTRA_TITLE, "Gradle, Gradle, Gradle");
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_FAVORITE);
     }
 
     private void downloadSongs() {
@@ -135,4 +138,27 @@ public class MainActivity extends AppCompatActivity {
             mBound = false;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_FAVORITE) {
+            if (resultCode == RESULT_OK) {
+                boolean result = data.getBooleanExtra(EXTRA_FAVORITE, false);
+                Log.i(TAG, "Is favorite? " + result);
+            }
+        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+
