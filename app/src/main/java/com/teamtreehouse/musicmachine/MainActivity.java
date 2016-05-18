@@ -4,16 +4,20 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.teamtreehouse.musicmachine.adapters.PlaylistAdapter;
+import com.teamtreehouse.musicmachine.models.Song;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "Downloading", Toast.LENGTH_SHORT).show();
 
                 // Send Messages to Handler for processing
-                for (String song : Playlist.songs) {
+                for (Song song : Playlist.songs) {
                     Intent intent = new Intent(MainActivity.this, DownloadIntentService.class);
                     intent.putExtra(KEY_SONG, song);
                     startService(intent);
