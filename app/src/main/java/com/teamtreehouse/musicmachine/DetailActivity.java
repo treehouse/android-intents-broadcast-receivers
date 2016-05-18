@@ -1,5 +1,6 @@
 package com.teamtreehouse.musicmachine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -20,6 +21,12 @@ public class DetailActivity extends AppCompatActivity {
 
         TextView titleLabel = (TextView)findViewById(R.id.songTitleLabel);
         final CheckBox favoriteCheckbox = (CheckBox)findViewById(R.id.checkBox);
+
+        Intent intent = getIntent();
+        if (intent.getStringExtra(MainActivity.EXTRA_TITLE) != null) {
+            String songTitle = intent.getStringExtra(MainActivity.EXTRA_TITLE);
+            titleLabel.setText(songTitle);
+        }
     }
 
     @Override
