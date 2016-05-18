@@ -17,12 +17,17 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
+
     public static final String KEY_SONG = "song";
+
     private boolean mBound = false;
     private Button mDownloadButton;
     private Button mPlayButton;
     private Messenger mServiceMessenger;
     private Messenger mActivityMessenger = new Messenger(new ActivityHandler(this));
+
+    private PlaylistAdapter mAdapter;
+
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
@@ -83,6 +88,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        RecyclerView recyclerView = (RecyclerView)findViewById(R.id.recyclerView);
+        mAdapter = new PlaylistAdapter(this, Playlist.songs);
+        recyclerView.setAdapter(mAdapter);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setHasFixedSize(true);
     }
 
     public void changePlayButtonText(String text) {
